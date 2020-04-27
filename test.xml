@@ -1,0 +1,8 @@
+<insert id="savePushUser" parameterType="com.winning.bifx.bean.PushUser">
+MERGE INTO DIM_APP_PUSH_USER P
+USING (SELECT #{clientId} client_Id, #{appId} app_Id, #{appKey} app_Key, #{userName} user_Name, #{userRole} user_Role, #{userId} user_Id) s
+ON P.CLIENT_ID = S.CLIENT_ID
+WHEN MATCHED THEN UPDATE SET P.APP_ID=S.APP_ID,P.APP_KEY=S.APP_KEY,P.USER_NAME=S.USER_NAME,P.USER_ROLE=S.USER_ROLE,P.USER_ID=S.USER_ID
+WHEN NOT MATCHED THEN
+INSERT (client_Id, APP_ID, APP_KEY,USER_NAME,USER_ROLE,USER_ID) VALUES (#{clientId},#{appId},#{appKey},#{userName},#{userRole},#{userId});
+</insert>
